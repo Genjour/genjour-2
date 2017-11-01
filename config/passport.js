@@ -1,7 +1,6 @@
 // load all the things we need
 var LocalStrategy    = require('passport-local').Strategy;
 var FacebookStrategy = require('passport-facebook').Strategy;
-var TwitterStrategy  = require('passport-twitter').Strategy;
 var GoogleStrategy   = require('passport-google-oauth').OAuth2Strategy;
 
 // load up the user model
@@ -164,8 +163,8 @@ module.exports = function(passport) {
                             user.facebook.token = token;
                             user.facebook.name  = profile.name.givenName + ' ' + profile.name.familyName;
                             user.facebook.email = (profile.emails[0].value || '').toLowerCase();
-                            user.facebook.photos = "https://graph.facebook.com/" + profile.name.givenName + "/picture" + "?width=200&height=200" + "&access_token=" + accessToken;
-                            console.log('here is');
+                            user.facebook.photos = "https://graph.facebook.com/" + profile.username + "/picture" + "?width=200&height=200" + "&access_token=" + accessToken;
+
                             user.save(function(err) {
                                 if (err)
                                     return done(err);
@@ -183,7 +182,7 @@ module.exports = function(passport) {
                         newUser.facebook.token = token;
                         newUser.facebook.name  = profile.name.givenName + ' ' + profile.name.familyName;
                         newUser.facebook.email = (profile.emails[0].value || '').toLowerCase();
-                        newUser.facebook.photos = "https://graph.facebook.com/" + profile.name.givenName + "/picture" + "?width=200&height=200" + "&access_token=" + accessToken;
+                        newUser.facebook.photos = "https://graph.facebook.com/" + profile.username + "/picture" + "?width=200&height=200" + "&access_token=" + accessToken;
                         newUser.save(function(err) {
                             if (err)
                                 return done(err);
@@ -201,7 +200,7 @@ module.exports = function(passport) {
                 user.facebook.token = token;
                 user.facebook.name  = profile.name.givenName + ' ' + profile.name.familyName;
                 user.facebook.email = (profile.emails[0].value || '').toLowerCase();
-                user.facebook.photos = "https://graph.facebook.com/" + profile.name.givenName + "/picture" + "?width=200&height=200" + "&access_token=" + accessToken;
+                user.facebook.photos = "https://graph.facebook.com/" + profile.username + "/picture" + "?width=200&height=200" + "&access_token=" + accessToken;
                 user.save(function(err) {
                     if (err)
                         return done(err);
