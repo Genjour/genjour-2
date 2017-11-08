@@ -162,8 +162,9 @@ module.exports = function(passport) {
                         if (!user.facebook.token) {
 
                             user.facebook.token = token;
+                            user.facebook.username = profile.displayName;
                             user.facebook.name  = profile.name.givenName + ' ' + profile.name.familyName;
-                            user.facebook.email = "amit";//(profile.emails[0].value || '').toLowerCase();
+                            user.facebook.email = (profile.emails[0].value || '').toLowerCase();
                             user.facebook.pic = "http://graph.facebook.com/" + profile.id + "/picture?type=square";
 
                             user.save(function(err) {
@@ -178,12 +179,13 @@ module.exports = function(passport) {
                     } else {
                         // if there is no user, create them
                         var newUser            = new User();
-
+                        newUser.facebook.username = profile.displayName;
                         newUser.facebook.id    = profile.id;
                         newUser.facebook.token = token;
                         newUser.facebook.name  = profile.name.givenName + ' ' + profile.name.familyName;
-                        newUser.facebook.email = "amit"//(profile.emails[0].value || '').toLowerCase();
+                        newUser.facebook.email = (profile.emails[0].value || '').toLowerCase();
                         newUser.facebook.pic = "http://graph.facebook.com/" + profile.id + "/picture?type=square";
+
                         newUser.save(function(err) {
                             if (err)
                                 return done(err);
@@ -196,12 +198,13 @@ module.exports = function(passport) {
             } else {
                 // user already exists and is logged in, we have to link accounts
                 var user            = req.user; // pull the user out of the session
-
+                user.facebook.username = profile.displayName;
                 user.facebook.id    = profile.id;
                 user.facebook.token = token;
                 user.facebook.name  = profile.name.givenName + ' ' + profile.name.familyName;
-                user.facebook.email = "amit";//(profile.emails[0].value || '').toLowerCase();
+                user.facebook.email = (profile.emails[0].value || '').toLowerCase();
                 user.facebook.pic = "http://graph.facebook.com/" + profile.id + "/picture?type=square";
+
                 user.save(function(err) {
                     if (err)
                         return done(err);

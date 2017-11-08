@@ -2,21 +2,133 @@
 <html>
 <head>
     <title>Genjour</title>
-    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css">
-    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css">
-    <style>
-        body         { padding-top:80px; word-wrap:break-word; }
-    </style>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh" crossorigin="anonymous"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js" integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ" crossorigin="anonymous"></script>
+
 </head>
 <body>
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <a class="navbar-brand" href="#">Genjour</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="navbarNavDropdown">
+    <ul class="navbar-nav">
+      <li class="nav-item active">
+        <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="#">Features</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="#">Pricing</a>
+      </li>
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          <%= user.facebook.name %>
+        </a>
+        <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+          <a class="dropdown-item" href="/logout">Logout</a>
+          <a class="dropdown-item" href="/settings">Setings</a>
+          <a class="dropdown-item" href="#">Something else here</a>
+        </div>
+      </li>
+    </ul>
+  </div>
+</nav>
 <div class="container">
-
-    <div class="page-header text-center">
-        <h1><span class="fa fa-anchor"></span> Profile Page</h1>
-        <a href="/logout" class="btn btn-default btn-sm">Logout</a>
+  <div class="row mt-5">
+    <div class="col">
+      <img src="<%= user.facebook.pic %>" class="rounded float-left" alt="...">
+      <p class=" lead"> <strong>Genjourist <%= user.facebook.name %></strong></p>
     </div>
+    <div class="col">
+      <h4><span class="badge badge-primary">Age</span></h4>
+    </div>
+    <div class="col">
+      <h4><span class="badge badge-dark">Gender</span></h4>
+    </div>
+  </div>
+<p class="lead mt-5 display-4">Contribute: </p>
 
-    <div class="row">
+
+<!-- Qoutation Section -->
+<div class="row mt-3">
+    <form method="POST" action="/article">
+      <div class="row">
+        <p class="lead">Article</p>
+      </div>
+    <div class="form-row align-items-center">
+      <div class="col-auto">
+
+        <select class="custom-select mb-2 mr-sm-2 mb-sm-0" id="inlineFormCustomSelect" name="category">
+          <option selected>Choose...</option>
+          <option value="1">One</option>
+          <option value="2">Two</option>
+          <option value="3">Three</option>
+        </select>
+      </div>
+
+      <div class="col-auto">
+        <label class="sr-only" for="inlineFormInputGroupUsername">article</label>
+        <div class="input-group mb-2 mb-sm-0">
+          <textarea class="form-control" id="exampleFormControlTextarea1" rows="1" name="articleBody" placeholder="content"></textarea>
+        </div>
+      </div>
+
+      <div class="col-auto">
+        <label class="custom-file">
+          <input type="file" id="file2" class="custom-file-input" name="articleImage" >
+          <span class="custom-file-control">image</span>
+        </label>
+      </div>
+      <div class="col-auto">
+        <button type="submit" class="btn btn-primary">Submit</button>
+      </div>
+    </div>
+  </form>
+</div>
+
+<!-- Qoutation Section -->
+
+<div class="row mt-3">
+    <form>
+      <div class="row">
+        <p class="lead">Qoutation</p>
+      </div>
+    <div class="form-row align-items-center">
+      <div class="col-auto">
+
+        <select class="custom-select mb-2 mr-sm-2 mb-sm-0" id="inlineFormCustomSelect">
+          <option selected>Choose...</option>
+          <option value="1">One</option>
+          <option value="2">Two</option>
+          <option value="3">Three</option>
+        </select>
+      </div>
+
+      <div class="col-auto">
+        <label class="sr-only" for="inlineFormInputGroupUsername">Quotation</label>
+        <div class="input-group mb-2 mb-sm-0">
+          <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+        </div>
+      </div>
+
+      <div class="col-auto">
+      </div>
+      <div class="col-auto">
+        <button type="submit" class="btn btn-primary">Submit</button>
+      </div>
+    </div>
+  </form>
+</div>
+<div class="" style="magrin-top:100px">
+
+</div>
+
+    <div class="row mt-5">
 
         <!-- LOCAL INFORMATION -->
         <div class="col-sm-6">
@@ -47,25 +159,24 @@
                 <% if (user.facebook.token) { %>
                     <p>
                         <strong>id</strong>: <%= user.facebook.id %><br>
-                        <strong>username</strong>: <%= user.facebook.username  %><br>
+                        <strong>username</strong>: <%= user.facebook.username%><br>
                         <strong>token</strong>: <%= user.facebook.token %><br>
                         <strong>email</strong>: <%= user.facebook.email %><br>
                         <strong>name</strong>: <%= user.facebook.name %><br>
-                        <strong>profile pic</strong>: <%= user.facebook.pic %><br>
+                        <strong>profile pic</strong>: <img src="<%= user.facebook.pic %>" alt=""><br>
+
 
                     </p>
 
-                    <a href="/unlink/facebook" class="btn btn-primary">Unlink</a>
-                <% } else { %>
-                    <a href="/connect/facebook" class="btn btn-primary">Connect Facebook</a>
-                <% } %>
+                <% }  %>
+
 
             </div>
         </div>
     </div>
     <div class="row">
 
-  
+
         <!-- GOOGLE INFORMATION -->
         <div class="col-sm-6">
             <div class="well">
@@ -77,6 +188,7 @@
                         <strong>token</strong>: <%= user.google.token %><br>
                         <strong>email</strong>: <%= user.google.email %><br>
                         <strong>name</strong>: <%= user.google.name %>
+
                     </p>
 
                     <a href="/unlink/google" class="btn btn-danger">Unlink</a>

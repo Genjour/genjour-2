@@ -151,6 +151,12 @@ module.exports = function(app, passport) {
         });
     });
 
+    app.post('/article',(req,res)=>{
+      console.log(req.body.category+' '+ req.body.articleBody);
+      res.redirect('/auth/facebook');
+    });
+
+
 
 };
 
