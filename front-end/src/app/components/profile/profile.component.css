@@ -1,3 +1,6 @@
+.spacer {
+  flex: 1 1 auto;
+}
 .bounds {
   background-color:#f7f7f7;
   height :800px;
@@ -38,7 +41,19 @@
 
 }
 
-.articleContent{
+.hashTags {
+  width: 100%;
+}
+
+
+.articleTitle >*{
+  width: 50%;
+}
+
+.category  > *{
+  width:  30%;
+}
+.articleContent > * {
   width: 100%;
 }
 

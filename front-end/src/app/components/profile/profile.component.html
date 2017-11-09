@@ -21,10 +21,9 @@
           <mat-card-actions layout="row" layout-align="end center">
                   <mat-chip-list fxLayout="row" >
                     <mat-button-toggle color="primary">Support</mat-button-toggle>
-                    <div fxLayout="row" fxLayoutAlign="end center">
+                    <span class="spacer"></span>
                       <mat-chip color="warn" selected="true">14-30</mat-chip>
-                      <mat-chip color="primary" selected="true">Male</mat-chip>
-                    </div>
+                      <mat-chip align="end" color="primary" selected="true">Male</mat-chip>
                   </mat-chip-list>
           </mat-card-actions>
         </mat-card>
@@ -45,30 +44,52 @@
               </mat-panel-description>
             </mat-expansion-panel-header>
 
-            <mat-form-field>
-              <input matInput class="title" placeholder="Title">
-            </mat-form-field>
 
-            <mat-form-field>
-              <mat-select placeholder="Category">
-                <mat-option value="option">Option</mat-option>
-                <mat-option value="option">Socitey</mat-option>
-                <mat-option value="option">Life</mat-option>
-                <mat-option value="option">Controvery</mat-option>
-                <mat-option value="option">Politics</mat-option>
-                <mat-option value="option">Philosophy</mat-option>
-              </mat-select>
-            </mat-form-field>
+              <div class="articleTitle">
+                <mat-form-field>
+                  <input matInput placeholder="Title">
+                </mat-form-field>
+              </div>
+              <div class="category">
+                <mat-form-field>
+                  <mat-select placeholder="Category">
+                    <mat-option value="option">Option</mat-option>
+                    <mat-option value="option">Socitey</mat-option>
+                    <mat-option value="option">Life</mat-option>
+                    <mat-option value="option">Controvery</mat-option>
+                    <mat-option value="option">Politics</mat-option>
+                    <mat-option value="option">Philosophy</mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+
+
             <br />
 
-            <mat-form-field>
-              <textarea matInput placeholder="Content"></textarea>
-            </mat-form-field>
+            <div class="articleContent">
+              <mat-form-field>
+                <textarea matInput placeholder="Content"></textarea>
+              </mat-form-field>
+            </div>
+
             <br>
-            <mat-form-field>
-              <input matInput placeholder="Hash Tags">
+
+            <mat-form-field class="hashTags">
+              <mat-chip-list #chipList>
+                <mat-chip *ngFor="let tag of tags" [selectable]="selectable"
+                         [removable]="removable" (remove)="remove(tag)">
+                  {{tag.name}}
+                  <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+                </mat-chip>
+                <input placeholder="Hash Tags... (eg. category name, social)"
+                       [matChipInputFor]="chipList"
+                       [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                       [matChipInputAddOnBlur]="addOnBlur"
+                       (matChipInputTokenEnd)="add($event)" />
+              </mat-chip-list>
             </mat-form-field>
 
+              <button mat-raised-button color="basic">Upload Image</button>
 
             <mat-action-row>
               <button mat-raised-button color="primary">Submit</button>
@@ -86,9 +107,29 @@
               </mat-panel-description>
             </mat-expansion-panel-header>
 
-            <mat-form-field>
-              <input matInput placeholder="Country">
+            <div class="category">
+              <mat-form-field>
+                <mat-select placeholder="Category">
+                  <mat-option value="option">Option</mat-option>
+                  <mat-option value="option">Socitey</mat-option>
+                  <mat-option value="option">Life</mat-option>
+                  <mat-option value="option">Controvery</mat-option>
+                  <mat-option value="option">Politics</mat-option>
+                  <mat-option value="option">Philosophy</mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+
+          <br />
+          <div class="articleContent">
+            <mat-form-field class="example-full-width">
+              <input matInput #message maxlength="256" placeholder="Quote">
+              <mat-hint align="start"><strong>Be unique</strong> </mat-hint>
+              <mat-hint align="end">{{message.value.length}} / 256</mat-hint>
             </mat-form-field>
+          </div>
+
+
 
             <mat-action-row>
 
