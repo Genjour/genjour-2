@@ -1,0 +1,13 @@
+.searchBar{
+  margin-left: 300px;
+  margin-top: 15px;
+  margin-bottom: 15px;
+  opacity: 0.4;
+  border-radius: 7px;
+  background-color: #eee;
+  padding: 0px 25px 0px 25px;
+}
+
+.spacer {
+  flex: 1 1 auto;
+}
