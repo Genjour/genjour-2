@@ -56,25 +56,36 @@
 
 <!-- Qoutation Section -->
 <div class="row mt-3">
-    <form method="POST" action="/article">
+    <form method="POST" action="/article" encType="multipart/form-data">
       <div class="row">
         <p class="lead">Article</p>
       </div>
     <div class="form-row align-items-center">
       <div class="col-auto">
 
-        <select class="custom-select mb-2 mr-sm-2 mb-sm-0" id="inlineFormCustomSelect" name="category">
+        <select class="custom-select mb-2 mr-sm-2 mb-sm-0" id="inlineFormCustomSelect" name="articleCategory">
           <option selected>Choose...</option>
           <option value="1">One</option>
           <option value="2">Two</option>
           <option value="3">Three</option>
         </select>
       </div>
-
+      <div class="col-auto">
+        <label class="sr-only" for="inlineFormInputGroupUsername">title</label>
+        <div class="input-group mb-2 mb-sm-0">
+          <textarea class="form-control" id="exampleFormControlTextarea1" rows="1" name="articleTitle" placeholder="title"></textarea>
+        </div>
+      </div>
       <div class="col-auto">
         <label class="sr-only" for="inlineFormInputGroupUsername">article</label>
         <div class="input-group mb-2 mb-sm-0">
-          <textarea class="form-control" id="exampleFormControlTextarea1" rows="1" name="articleBody" placeholder="content"></textarea>
+          <textarea class="form-control" id="exampleFormControlTextarea1" rows="1" name="articleContent" placeholder="content"></textarea>
+        </div>
+      </div>
+      <div class="col-auto">
+        <label class="sr-only" for="inlineFormInputGroupUsername">hash tags</label>
+        <div class="input-group mb-2 mb-sm-0">
+          <textarea class="form-control" id="exampleFormControlTextarea1" rows="1" name="articleHash" placeholder="hash tags"></textarea>
         </div>
       </div>
 
@@ -112,7 +123,7 @@
       <div class="col-auto">
         <label class="sr-only" for="inlineFormInputGroupUsername">Quotation</label>
         <div class="input-group mb-2 mb-sm-0">
-          <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+          <textarea class="form-control" id="exampleFormControlTextarea1" rows="1"></textarea>
         </div>
       </div>
 
@@ -163,6 +174,7 @@
                         <strong>token</strong>: <%= user.facebook.token %><br>
                         <strong>email</strong>: <%= user.facebook.email %><br>
                         <strong>name</strong>: <%= user.facebook.name %><br>
+                        <strong>birthday</strong>: <%= user.facebook.birthday %><br>
                         <strong>profile pic</strong>: <img src="<%= user.facebook.pic %>" alt=""><br>
 
 

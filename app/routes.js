@@ -1,3 +1,8 @@
+var fileUpload = require('express-fileupload');
+var Article    = require('../app/models/article');
+var generateID = require("unique-id-generator");
+var uniqid = require('uniqid');
+
 module.exports = function(app, passport) {
 
 // normal routes ===============================================================
@@ -54,7 +59,7 @@ module.exports = function(app, passport) {
     // facebook -------------------------------
 
         // send to facebook to do the authentication
-        app.get('/auth/facebook', passport.authenticate('facebook', { scope : 'email' }));
+        app.get('/auth/facebook', passport.authenticate('facebook', { scope : ['email','user_birthday'] }));
 
         // handle the callback after facebook has authenticated the user
         app.get('/auth/facebook/callback',
@@ -76,85 +81,44 @@ module.exports = function(app, passport) {
                 failureRedirect : '/'
             }));
 
-// =============================================================================
-// AUTHORIZE (ALREADY LOGGED IN / CONNECTING OTHER SOCIAL ACCOUNT) =============
-// =============================================================================
-
-    // locally --------------------------------
-        app.get('/connect/local', function(req, res) {
-            res.render('connect-local.ejs', { message: req.flash('loginMessage') });
-        });
-        app.post('/connect/local', passport.authenticate('local-signup', {
-            successRedirect : '/profile', // redirect to the secure profile section
-            failureRedirect : '/connect/local', // redirect back to the signup page if there is an error
-            failureFlash : true // allow flash messages
-        }));
-
-    // facebook -------------------------------
-
-        // send to facebook to do the authentication
-        app.get('/connect/facebook', passport.authorize('facebook', { scope : 'email' }));
-
-        // handle the callback after facebook has authorized the user
-        app.get('/connect/facebook/callback',
-            passport.authorize('facebook', {
-                successRedirect : '/profile',
-                failureRedirect : '/'
-            }));
-
-
-    // google ---------------------------------
-
-        // send to google to do the authentication
-        app.get('/connect/google', passport.authorize('google', { scope : ['profile', 'email'] }));
-
-        // the callback after google has authorized the user
-        app.get('/connect/google/callback',
-            passport.authorize('google', {
-                successRedirect : '/profile',
-                failureRedirect : '/'
-            }));
 
 // =============================================================================
-// UNLINK ACCOUNTS =============================================================
+//====================== POSTING A ARTICLE INTO DB =============================
 // =============================================================================
-// used to unlink accounts. for social accounts, just remove the token
-// for local account, remove email and password
-// user account will stay active in case they want to reconnect in the future
 
-    // local -----------------------------------
-    app.get('/unlink/local', isLoggedIn, function(req, res) {
-        var user            = req.user;
-        user.local.email    = undefined;
-        user.local.password = undefined;
-        user.save(function(err) {
-            res.redirect('/profile');
+    app.post('/article', function(req, res) {
+        if (!req.files)
+              return res.status(400).send('No files were uploaded.');
+
+              // input file upload tagname from frontend
+              let file = req.files.articleImage;
+                  fileName = file.name;
+              // moving file to server
+              file.mv("assets/articles/img/"+fileName, function(err) {
+              if (err)
+                return res.status (500).send(err);
+
+               // console.log(req.body.category+' '+ req.body.articleContent+' '+req.body.articleHash+' '+req.body.articleTitle);
+
+                  var article = new Article()
+                  article.content = req.body.articleContent;
+                  article.title = req.body.articleTitle;
+                  article.category = req.body.category;
+                  article.tags = req.body.articleHash;
+                  article.image = fileName;
+                  article.genjourist = req.user;
+                  article.id = uniqid();
+                  article.save(function(err, docs){
+                  if(err) throw err;
+                  console.log("Article saved in database");
+                  res.json(docs);
+                });
         });
     });
 
-    // facebook -------------------------------
-    app.get('/unlink/facebook', isLoggedIn, function(req, res) {
-        var user            = req.user;
-        user.facebook.token = undefined;
-        user.save(function(err) {
-            res.redirect('/profile');
-        });
-    });
-
-
-    // google ---------------------------------
-    app.get('/unlink/google', isLoggedIn, function(req, res) {
-        var user          = req.user;
-        user.google.token = undefined;
-        user.save(function(err) {
-            res.redirect('/profile');
-        });
-    });
-
-    app.post('/article',(req,res)=>{
-      console.log(req.body.category+' '+ req.body.articleBody);
-      res.redirect('/auth/facebook');
-    });
+// =============================================================================
+//====================== POSTING A QUOTATION INTO DB ===========================
+// =============================================================================
 
 
 

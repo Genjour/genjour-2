@@ -2,26 +2,21 @@
 var mongoose = require('mongoose');
 
 // define the schema for our user model
-var articleSchema = mongoose.Schema({
+var quotationSchema = mongoose.Schema({
 
         id            : String,
-        articleId     : String,
         genjouristId  : String,
         genjourist    : String,
         category      : String,
         title         : String,
         content       : String,
-        date          : {
-            type:Date,
-            default: Date.now
-        },
-        tags          : String,
-        image         : String
+        date          : String,
+        time          : String,
+        tags          : String
 
 
 });
 
 
-var a = mongoose.model('articles', articleSchema);
 // create the model for users and expose it to our app
-module.exports = a;
+module.exports = mongoose.model('Quotation', quotationSchema);
