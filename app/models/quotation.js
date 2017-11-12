@@ -1,7 +1,7 @@
 // load the things we need
 var mongoose = require('mongoose');
 
-// define the schema for our user model
+
 var quotationSchema = mongoose.Schema({
 
         id            : String,
@@ -10,13 +10,12 @@ var quotationSchema = mongoose.Schema({
         category      : String,
         title         : String,
         content       : String,
-        date          : String,
-        time          : String,
-        tags          : String
+        date          : {
+            type:Date,
+            default: Date.now
+        }
 
 
 });
 
-
-// create the model for users and expose it to our app
 module.exports = mongoose.model('Quotation', quotationSchema);

@@ -9,20 +9,22 @@ var userSchema = mongoose.Schema({
         email        : String,
         password     : String
     },
-    facebook         : {
-        id           : String,
-        username     : String,
-        token        : String,
-        email        : String,
-        name         : String,
-        pic          : String,
-        birthday     : String
+    facebook              : {
+        id                : String,
+        username          : String,
+        token             : String,
+        email             : String,
+        name              : String,
+        pic               : String,
+        genjouristId     : String
     },
-    google           : {
-        id           : String,
-        token        : String,
-        email        : String,
-        name         : String
+    google                : {
+        id                : String,
+        token             : String,
+        email             : String,
+        name              : String,
+        pic               : String,
+        genjouristId     : String
     }
 
 });

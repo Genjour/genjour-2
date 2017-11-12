@@ -54,7 +54,7 @@
 <p class="lead mt-5 display-4">Contribute: </p>
 
 
-<!-- Qoutation Section -->
+<!-- Article Section -->
 <div class="row mt-3">
     <form method="POST" action="/article" encType="multipart/form-data">
       <div class="row">
@@ -105,16 +105,16 @@
 <!-- Qoutation Section -->
 
 <div class="row mt-3">
-    <form>
+    <form method="POST" action="/quotation" encType="multipart/form-data">
       <div class="row">
         <p class="lead">Qoutation</p>
       </div>
     <div class="form-row align-items-center">
       <div class="col-auto">
 
-        <select class="custom-select mb-2 mr-sm-2 mb-sm-0" id="inlineFormCustomSelect">
+        <select class="custom-select mb-2 mr-sm-2 mb-sm-0" name="quotationCategory" id="inlineFormCustomSelect">
           <option selected>Choose...</option>
-          <option value="1">One</option>
+          <option value="1">cat1</option>
           <option value="2">Two</option>
           <option value="3">Three</option>
         </select>
@@ -123,7 +123,7 @@
       <div class="col-auto">
         <label class="sr-only" for="inlineFormInputGroupUsername">Quotation</label>
         <div class="input-group mb-2 mb-sm-0">
-          <textarea class="form-control" id="exampleFormControlTextarea1" rows="1"></textarea>
+          <textarea class="form-control" id="exampleFormControlTextarea1" name="quotationContent" rows="1"></textarea>
         </div>
       </div>
 
@@ -200,10 +200,9 @@
                         <strong>token</strong>: <%= user.google.token %><br>
                         <strong>email</strong>: <%= user.google.email %><br>
                         <strong>name</strong>: <%= user.google.name %>
+                       
 
                     </p>
-
-                    <a href="/unlink/google" class="btn btn-danger">Unlink</a>
                 <% } else { %>
                     <a href="/connect/google" class="btn btn-danger">Connect Google</a>
                 <% } %>

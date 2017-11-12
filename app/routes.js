@@ -1,7 +1,8 @@
 var fileUpload = require('express-fileupload');
 var Article    = require('../app/models/article');
-var generateID = require("unique-id-generator");
-var uniqid = require('uniqid');
+var Quotation  = require('../app/models/quotation');
+var uniqid     = require('uniqid');
+var User       = require('../app/models/user');
 
 module.exports = function(app, passport) {
 
@@ -106,7 +107,7 @@ module.exports = function(app, passport) {
                   article.category = req.body.category;
                   article.tags = req.body.articleHash;
                   article.image = fileName;
-                  article.genjourist = req.user;
+                  //article.genjourist = req.user.facebook.genjouristId;
                   article.id = uniqid();
                   article.save(function(err, docs){
                   if(err) throw err;
@@ -121,6 +122,35 @@ module.exports = function(app, passport) {
 // =============================================================================
 
 
+app.post('/quotation', function(req, res) {
+ 
+            console.log(req.body.quotationCategory+' '+ req.body.quotationContent);
+
+              var quotation = new Quotation()
+              quotation.category = req.body.quotationCategory;
+              quotation.content = req.body.quotationContent;
+              quotation.id = uniqid();
+              //quotation.genjouristId = User.req.genjouristId;
+              quotation.save(function(err, docs){
+              if(err) throw err;
+              console.log("Quotation saved in database");
+              res.json(docs);
+            });
+
+    });
+
+
+// =============================================================================
+//====================== Profile by genjourist ID ==============================
+// =============================================================================
+
+    app.get('/profile/:id', function(req, res) {
+        console.log("REACHED GET ID FUNCTION ON SERVER");
+        User.find({ Type: req.params.id }, function(err, docs) {
+            res.json({docs});
+    
+        });
+    });
 
 };
 

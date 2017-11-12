@@ -2,6 +2,8 @@
 var LocalStrategy    = require('passport-local').Strategy;
 var FacebookStrategy = require('passport-facebook').Strategy;
 var GoogleStrategy   = require('passport-google-oauth').OAuth2Strategy;
+var generateID = require("unique-id-generator");
+
 
 // load up the user model
 var User       = require('../app/models/user');
@@ -167,6 +169,7 @@ module.exports = function(passport) {
                             user.facebook.email = (profile.emails[0].value || '').toLowerCase();
                             user.facebook.pic = "http://graph.facebook.com/" + profile.id + "/picture?type=square";
                             user.facebook.birthday = profile.birthday;
+                            user.facebook.genjouristId = generateID();
                             user.save(function(err) {
                                 if (err)
                                     return done(err);
@@ -185,7 +188,18 @@ module.exports = function(passport) {
                         newUser.facebook.name  = profile.name.givenName + ' ' + profile.name.familyName;
                         newUser.facebook.email = (profile.emails[0].value || '').toLowerCase();
                         newUser.facebook.pic = "http://graph.facebook.com/" + profile.id + "/picture?type=square";
-                        newUser.facebook.birthday = profile.birthday;
+                        newUser.facebook.genjouristId = generateID();
+                        // var Email = (profile.emails[0].value || '').toLowerCase();
+                        // User.findOne({ 'google.email' : Email }),function(err,docs){
+                        //      if(err)
+                        //          return err;
+                        //      if(docs)
+                        //          newUser.facebook.genjouristId = user.google.genjouristId; 
+                        //      else
+                        //          newUser.facebook.genjouristId = generateID();
+                            
+                        //  }
+                        //newUser.facebook.birthday = profile.birthday;
                         newUser.save(function(err) {
                             if (err)
                                 return done(err);
@@ -205,6 +219,7 @@ module.exports = function(passport) {
                 user.facebook.email = (profile.emails[0].value || '').toLowerCase();
                 user.facebook.pic = "http://graph.facebook.com/" + profile.id + "/picture?type=square";
                 user.facebook.birthday = profile.birthday;
+                user.facebook.genjouristId = generateID();
                 user.save(function(err) {
                     if (err)
                         return done(err);
@@ -248,7 +263,16 @@ module.exports = function(passport) {
                             user.google.token = token;
                             user.google.name  = profile.displayName;
                             user.google.email = (profile.emails[0].value || '').toLowerCase(); // pull the first email
-
+                            //user.google.pic   = 'https://www.googleapis.com/plus/v1/people/'+profile.id+'?fields=image&key=AIzaSyDQBNJ6tXZUrq3NHJhlumwo4cpWwGfr8RE';
+                            User.findOne({ 'facebook.email' : Email }),function(err,docs){
+                                if(err)
+                                    return err;
+                                else
+                                console.log(docs);
+                                    return docs; 
+                                   
+                              
+                            }
                             user.save(function(err) {
                                 if (err)
                                     return done(err);
@@ -265,7 +289,20 @@ module.exports = function(passport) {
                         newUser.google.token = token;
                         newUser.google.name  = profile.displayName;
                         newUser.google.email = (profile.emails[0].value || '').toLowerCase(); // pull the first email
-
+                        //newUser.google.pic   = 'https://www.googleapis.com/plus/v1/people/'+profile.id+'?fields=image&key=AIzaSyDQBNJ6tXZUrq3NHJhlumwo4cpWwGfr8RE';
+                        
+                        
+                        var Email = (profile.emails[0].value || '').toLowerCase();
+                        
+                         User.findOne({ 'facebook.email' : Email }),function(err,docs){
+                              if(err)
+                                  return err;
+                              else
+                              console.log(docs);
+                                  return docs; 
+                                 
+                            
+                          }
                         newUser.save(function(err) {
                             if (err)
                                 return done(err);
@@ -283,7 +320,16 @@ module.exports = function(passport) {
                 user.google.token = token;
                 user.google.name  = profile.displayName;
                 user.google.email = (profile.emails[0].value || '').toLowerCase(); // pull the first email
-
+                //user.google.pic   = 'https://www.googleapis.com/plus/v1/people/'+profile.id+'?fields=image&key=AIzaSyDQBNJ6tXZUrq3NHJhlumwo4cpWwGfr8RE';
+                User.findOne({ 'facebook.email' : Email }),function(err,docs){
+                    if(err)
+                        return err;
+                    else
+                        console.log(docs);
+                        return docs; 
+                       
+                  
+                }
                 user.save(function(err) {
                     if (err)
                         return done(err);
