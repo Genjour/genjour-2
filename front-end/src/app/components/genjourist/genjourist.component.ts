@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ViewEncapsulation } from '@angular/core';
+
 @Component({
   selector: 'app-genjourist',
   templateUrl: './genjourist.component.html',
@@ -14,3 +15,4 @@ export class GenjouristComponent implements OnInit {
   }
 
 }
+  
