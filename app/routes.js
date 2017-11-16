@@ -144,13 +144,15 @@ app.post('/quotation', function(req, res) {
 //====================== Profile by genjourist ID ==============================
 // =============================================================================
 
-    app.get('/genjourtist/:id', function(req, res) {
-        console.log("REACHED GET ID FUNCTION ON SERVER");
-        User.find({ Type: req.params.id }, function(err, docs) {
-            res.json({docs});
-    
+    app.get('/genjourist/:id', function(req, res) {
+        console.log("id api is working");
+        User.findOne({ name : req.params['genjouristId.id'] }, function(err, docs) {
+            res.json(docs);
         });
     });
+
+
+
 
 };
 
