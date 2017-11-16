@@ -154,22 +154,22 @@ module.exports = function(passport) {
             // check if the user is already logged in
             if (!req.user) {
 
-                User.findOne({ 'facebook.id' : profile.id }, function(err, user) {
+                User.findOne({ 'facebookId' : profile.id }, function(err, user) {
                     if (err)
                         return done(err);
 
                     if (user) {
 
                         // if there is a user id already but no token (user was linked at one point and then removed)
-                        if (!user.facebook.token) {
+                        if (!user.facebookToken) {
 
-                            user.facebook.token = token;
-                            user.facebook.username = profile.displayName;
-                            user.facebook.name  = profile.name.givenName + ' ' + profile.name.familyName;
-                            user.facebook.email = (profile.emails[0].value || '').toLowerCase();
-                            user.facebook.pic = "http://graph.facebook.com/" + profile.id + "/picture?type=square";
-                            user.facebook.birthday = profile.birthday;
-                            user.facebook.genjouristId = generateID();
+                            user.facebookToken = token;
+                            //user.username = profile.displayName;
+                            user.username  = profile.name.givenName + ' ' + profile.name.familyName;
+                            user.email = (profile.emails[0].value || '').toLowerCase();
+                            user.pic = "http://graph.facebook.com/" + profile.id + "/picture?type=square";
+                            user.dob = "01-01-1996";
+                            user.genjouristId = generateID();
                             user.save(function(err) {
                                 if (err)
                                     return done(err);
@@ -180,46 +180,64 @@ module.exports = function(passport) {
 
                         return done(null, user); // user found, return that user
                     } else {
-                        // if there is no user, create them
-                        var newUser            = new User();
-                        newUser.facebook.username = profile.displayName;
-                        newUser.facebook.id    = profile.id;
-                        newUser.facebook.token = token;
-                        newUser.facebook.name  = profile.name.givenName + ' ' + profile.name.familyName;
-                        newUser.facebook.email = (profile.emails[0].value || '').toLowerCase();
-                        newUser.facebook.pic = "http://graph.facebook.com/" + profile.id + "/picture?type=square";
-                        newUser.facebook.genjouristId = generateID();
-                        // var Email = (profile.emails[0].value || '').toLowerCase();
-                        // User.findOne({ 'google.email' : Email }),function(err,docs){
-                        //      if(err)
-                        //          return err;
-                        //      if(docs)
-                        //          newUser.facebook.genjouristId = user.google.genjouristId; 
-                        //      else
-                        //          newUser.facebook.genjouristId = generateID();
-                            
-                        //  }
-                        //newUser.facebook.birthday = profile.birthday;
-                        newUser.save(function(err) {
-                            if (err)
-                                return done(err);
 
-                            return done(null, newUser);
+                        var Email=(profile.emails[0].value || '').toLowerCase();
+                        User.findOne({'email':Email},function(err,user){
+                            if(err)
+                                return done(err);
+                            if(user)
+                                {   
+                                    console.log(user);
+                                    console.log('duplicate email');
+                                    user.facebookToken = token;
+                                    user.facebookProvider = "yes";
+                                    user.save(function(err) {
+                                        if (err)
+                                            return done(err);
+        
+                                        return done(null, user);
+                                    });
+                                }
+                            else
+                                {
+                                     // if there is no user, create them
+                                    var newUser            = new User();
+                                    newUser.facebookId    = profile.id;
+                                    newUser.facebookToken = token;
+                                    newUser.username  = profile.name.givenName + ' ' + profile.name.familyName;
+                                    newUser.email = (profile.emails[0].value || '').toLowerCase();
+                                    newUser.pic = "http://graph.facebook.com/" + profile.id + "/picture?type=square";
+                                    newUser.dob = "01-01-1996";
+                                    newUser.providers = "Facebook";
+                                    newUser.facebookProvider = "yes";
+                                    newUser.genjouristId = generateID();
+                                    newUser.createdOn = Date();
+                                    newUser.save(function(err) {
+                                        if (err)
+                                            return done(err);
+
+                                        return done(null, newUser);
+                                    });
+                                }
+
+
                         });
+
+                       
                     }
                 });
 
             } else {
                 // user already exists and is logged in, we have to link accounts
                 var user            = req.user; // pull the user out of the session
-                user.facebook.username = profile.displayName;
-                user.facebook.id    = profile.id;
-                user.facebook.token = token;
-                user.facebook.name  = profile.name.givenName + ' ' + profile.name.familyName;
-                user.facebook.email = (profile.emails[0].value || '').toLowerCase();
-                user.facebook.pic = "http://graph.facebook.com/" + profile.id + "/picture?type=square";
-                user.facebook.birthday = profile.birthday;
-                user.facebook.genjouristId = generateID();
+                //user.username = profile.displayName;
+                user.facebookId    = profile.id;
+                user.facebookToken = token;
+                user.username  = profile.name.givenName + ' ' + profile.name.familyName;
+                user.email = (profile.emails[0].value || '').toLowerCase();
+                user.pic = "http://graph.facebook.com/" + profile.id + "/picture?type=square";
+                user.dob = "01-01-1996";
+                user.genjouristId = generateID();
                 user.save(function(err) {
                     if (err)
                         return done(err);
@@ -252,27 +270,18 @@ module.exports = function(passport) {
             // check if the user is already logged in
             if (!req.user) {
 
-                User.findOne({ 'google.id' : profile.id }, function(err, user) {
+                User.findOne({ 'googleId' : profile.id }, function(err, user) {
                     if (err)
                         return done(err);
 
                     if (user) {
 
                         // if there is a user id already but no token (user was linked at one point and then removed)
-                        if (!user.google.token) {
-                            user.google.token = token;
-                            user.google.name  = profile.displayName;
+                        if (!user.googleToken) {
+                            user.googleToken = token;
+                            user.username  = profile.displayName;
                             user.google.email = (profile.emails[0].value || '').toLowerCase(); // pull the first email
                             //user.google.pic   = 'https://www.googleapis.com/plus/v1/people/'+profile.id+'?fields=image&key=AIzaSyDQBNJ6tXZUrq3NHJhlumwo4cpWwGfr8RE';
-                            User.findOne({ 'facebook.email' : Email }),function(err,docs){
-                                if(err)
-                                    return err;
-                                else
-                                console.log(docs);
-                                    return docs; 
-                                   
-                              
-                            }
                             user.save(function(err) {
                                 if (err)
                                     return done(err);
@@ -283,32 +292,49 @@ module.exports = function(passport) {
 
                         return done(null, user);
                     } else {
-                        var newUser          = new User();
-
-                        newUser.google.id    = profile.id;
-                        newUser.google.token = token;
-                        newUser.google.name  = profile.displayName;
-                        newUser.google.email = (profile.emails[0].value || '').toLowerCase(); // pull the first email
-                        //newUser.google.pic   = 'https://www.googleapis.com/plus/v1/people/'+profile.id+'?fields=image&key=AIzaSyDQBNJ6tXZUrq3NHJhlumwo4cpWwGfr8RE';
                         
-                        
-                        var Email = (profile.emails[0].value || '').toLowerCase();
-                        
-                         User.findOne({ 'facebook.email' : Email }),function(err,docs){
-                              if(err)
-                                  return err;
-                              else
-                              console.log(docs);
-                                  return docs; 
-                                 
-                            
-                          }
-                        newUser.save(function(err) {
-                            if (err)
+                        var Email=(profile.emails[0].value || '').toLowerCase();
+                        User.findOne({'email':Email},function(err,user){
+                            if(err)
                                 return done(err);
+                            if(user)
+                                {   
+                                    console.log(user);
+                                    console.log('duplicate email');
+                                    user.googleToken = token;
+                                    user.save(function(err) {
+                                        if (err)
+                                            return done(err);
+        
+                                        return done(null, user);
+                                    });
+                                }
+                            else
+                                {
+                                    var newUser          = new User();
+                                    newUser.googleId    = profile.id;
+                                    newUser.googleToken = token;
+                                    newUser.useername  = profile.displayName;
+                                    newUser.email = (profile.emails[0].value || '').toLowerCase(); // pull the first email
+                                    newUser.providers = "Google";
+                                    newUser.googleProvider = "yes";
+                                    newUser.dob = "01-01-1996";
+                                    newUser.createdOn = Date();
+                                    
+                                    
+                                    //newUser.google.pic   = 'https://www.googleapis.com/plus/v1/people/'+profile.id+'?fields=image&key=AIzaSyDQBNJ6tXZUrq3NHJhlumwo4cpWwGfr8RE';
+                                    
+                                    newUser.save(function(err) {
+                                        if (err)
+                                            return done(err);
+            
+                                        return done(null, newUser);
+                                    });
+                                }
 
-                            return done(null, newUser);
+
                         });
+                        
                     }
                 });
 
@@ -316,20 +342,12 @@ module.exports = function(passport) {
                 // user already exists and is logged in, we have to link accounts
                 var user               = req.user; // pull the user out of the session
 
-                user.google.id    = profile.id;
-                user.google.token = token;
-                user.google.name  = profile.displayName;
+                user.googleId    = profile.id;
+                user.googleToken = token;
+                user.username  = profile.displayName;
                 user.google.email = (profile.emails[0].value || '').toLowerCase(); // pull the first email
                 //user.google.pic   = 'https://www.googleapis.com/plus/v1/people/'+profile.id+'?fields=image&key=AIzaSyDQBNJ6tXZUrq3NHJhlumwo4cpWwGfr8RE';
-                User.findOne({ 'facebook.email' : Email }),function(err,docs){
-                    if(err)
-                        return err;
-                    else
-                        console.log(docs);
-                        return docs; 
-                       
-                  
-                }
+                
                 user.save(function(err) {
                     if (err)
                         return done(err);

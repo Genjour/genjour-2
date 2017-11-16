@@ -27,7 +27,7 @@
       </li>
       <li class="nav-item dropdown">
         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-          <%= user.facebook.name %>
+          <%= user.username %>
         </a>
         <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
           <a class="dropdown-item" href="/logout">Logout</a>
@@ -41,8 +41,8 @@
 <div class="container">
   <div class="row mt-5">
     <div class="col">
-      <img src="<%= user.facebook.pic %>" class="rounded float-left" alt="...">
-      <p class=" lead"> <strong>Genjourist <%= user.facebook.name %></strong></p>
+      <img src="<%= user.pic %>" class="rounded float-left" alt="...">
+      <p class=" lead"> <strong>Genjourist <%= user.username %></strong></p>
     </div>
     <div class="col">
       <h4><span class="badge badge-primary">Age</span></h4>
@@ -141,76 +141,22 @@
 
     <div class="row mt-5">
 
-        <!-- LOCAL INFORMATION -->
-        <div class="col-sm-6">
-            <div class="well">
-                <h3><span class="fa fa-user"></span> Local</h3>
-
-                <% if (user.local.email) { %>
-                    <p>
-                        <strong>id</strong>: <%= user._id %><br>
-                        <strong>email</strong>: <%= user.local.email %><br>
-                        <strong>password</strong>: <%= user.local.password %>
-                    </p>
-
-                    <a href="/unlink/local" class="btn btn-default">Unlink</a>
-                <% } else { %>
-                    <a href="/connect/local" class="btn btn-default">Connect Local</a>
-                <% } %>
-
-            </div>
-        </div>
-
         <!-- FACEBOOK INFORMATION -->
         <div class="col-sm-6">
             <div class="well">
-                <h3 class="text-primary"><span class="fa fa-facebook"></span> Facebook</h3>
-
-                <!-- check if the user has this token (is the user authenticated with this social account) -->
-                <% if (user.facebook.token) { %>
+                
                     <p>
-                        <strong>id</strong>: <%= user.facebook.id %><br>
-                        <strong>username</strong>: <%= user.facebook.username%><br>
-                        <strong>token</strong>: <%= user.facebook.token %><br>
-                        <strong>email</strong>: <%= user.facebook.email %><br>
-                        <strong>name</strong>: <%= user.facebook.name %><br>
-                        <strong>birthday</strong>: <%= user.facebook.birthday %><br>
-                        <strong>profile pic</strong>: <img src="<%= user.facebook.pic %>" alt=""><br>
-
-
+                        <strong>id</strong>: <%= user.facebookId %><br>
+                        <strong>username</strong>: <%= user.username%><br>
+                        <strong>token</strong>: <%= user.facebookToken %><br>
+                        <strong>email</strong>: <%= user.email %><br>
+                        <strong>birthday</strong>: <%= user.dob %><br>
+                        <strong>profile pic</strong>: <img src="<%= user.pic %>" alt=""><br>
                     </p>
-
-                <% }  %>
-
 
             </div>
         </div>
     </div>
-    <div class="row">
-
-
-        <!-- GOOGLE INFORMATION -->
-        <div class="col-sm-6">
-            <div class="well">
-                <h3 class="text-danger"><span class="fa fa-google-plus"></span> Google+</h3>
-
-                <% if (user.google.token) { %>
-                    <p>
-                        <strong>id</strong>: <%= user.google.id %><br>
-                        <strong>token</strong>: <%= user.google.token %><br>
-                        <strong>email</strong>: <%= user.google.email %><br>
-                        <strong>name</strong>: <%= user.google.name %>
-                       
-
-                    </p>
-                <% } else { %>
-                    <a href="/connect/google" class="btn btn-danger">Connect Google</a>
-                <% } %>
-
-            </div>
-        </div>
-    </div>
-
 
 </div>
 </body>
