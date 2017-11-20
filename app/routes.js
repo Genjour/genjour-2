@@ -107,8 +107,10 @@ module.exports = function(app, passport) {
                   article.category = req.body.category;
                   article.tags = req.body.articleHash;
                   article.image = fileName;
-                  //article.genjourist = req.user.facebook.genjouristId;
-                  article.id = uniqid();
+                  var user = req.user;
+                  article.genjouristId = user.genjouristId;
+                  article.date = date();
+                  article.articleId = uniqid();
                   article.save(function(err, docs){
                   if(err) throw err;
                   console.log("Article saved in database");

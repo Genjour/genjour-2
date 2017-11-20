@@ -11,10 +11,7 @@ var articleSchema = mongoose.Schema({
         category      : String,
         title         : String,
         content       : String,
-        date          : {
-            type:Date,
-            default: Date.now
-        },
+        date          : String,
         tags          : String,
         image         : String
 
