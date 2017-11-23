@@ -170,6 +170,7 @@ module.exports = function(passport) {
                             user.pic = "http://graph.facebook.com/" + profile.id + "/picture?type=square";
                             user.dob = "01-01-1996";
                             user.genjouristId = generateID();
+                            
                             user.save(function(err) {
                                 if (err)
                                     return done(err);
@@ -191,6 +192,7 @@ module.exports = function(passport) {
                                     console.log('duplicate email');
                                     user.facebookToken = token;
                                     user.facebookProvider = "yes";
+                                    
                                     user.save(function(err) {
                                         if (err)
                                             return done(err);
@@ -212,6 +214,7 @@ module.exports = function(passport) {
                                     newUser.facebookProvider = "yes";
                                     newUser.genjouristId = generateID();
                                     newUser.createdOn = Date();
+                                    
                                     newUser.save(function(err) {
                                         if (err)
                                             return done(err);

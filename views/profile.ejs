@@ -150,7 +150,7 @@
                         <strong>username</strong>: <%= user.username%><br>
                         <strong>token</strong>: <%= user.facebookToken %><br>
                         <strong>email</strong>: <%= user.email %><br>
-                        <strong>birthday</strong>: <%= user.dob %><br>
+                        <strong>genjourist id</strong>: <%= user.genjouristId %><br>
                         <strong>profile pic</strong>: <img src="<%= user.pic %>" alt=""><br>
                     </p>
 
@@ -159,5 +159,12 @@
     </div>
 
 </div>
+<script>
+  var userid = <%- JSON.stringify( user.genjouristId) %>;
+  //localStorage.setItem('info', JSON.stringify({'user': user}));
+  //var userid = <%= user.genjouristID %>
+  console.log(userid);
+  localStorage.setItem('genjourist', userid);
+</script>
 </body>
 </html>

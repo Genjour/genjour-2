@@ -65,7 +65,7 @@ module.exports = function(app, passport) {
         // handle the callback after facebook has authenticated the user
         app.get('/auth/facebook/callback',
             passport.authenticate('facebook', {
-                successRedirect : '/profile',
+                successRedirect : '/genjourist',
                 failureRedirect : '/'
             }));
 
@@ -101,15 +101,16 @@ module.exports = function(app, passport) {
 
                // console.log(req.body.category+' '+ req.body.articleContent+' '+req.body.articleHash+' '+req.body.articleTitle);
 
-                  var article = new Article()
+                  var article = new Article();
                   article.content = req.body.articleContent;
                   article.title = req.body.articleTitle;
                   article.category = req.body.category;
                   article.tags = req.body.articleHash;
                   article.image = fileName;
-                  var user = req.user;
-                  article.genjouristId = user.genjouristId;
-                  article.date = date();
+                  console.log(User.facebook);
+                  //var user = req.user;
+                  //article.genjouristId = req.User.genjouristId;
+                  //article.date = date();
                   article.articleId = uniqid();
                   article.save(function(err, docs){
                   if(err) throw err;
@@ -128,7 +129,7 @@ app.post('/quotation', function(req, res) {
  
             console.log(req.body.quotationCategory+' '+ req.body.quotationContent);
 
-              var quotation = new Quotation()
+              var quotation = new Quotation();
               quotation.category = req.body.quotationCategory;
               quotation.content = req.body.quotationContent;
               quotation.id = uniqid();
@@ -147,13 +148,16 @@ app.post('/quotation', function(req, res) {
 // =============================================================================
 
     app.get('/genjourist/:id', function(req, res) {
-        console.log("id api is working");
-        User.findOne({ name : req.params['genjouristId.id'] }, function(err, docs) {
-            res.json(docs);
+        console.log(req.params.id);
+        User.findOne({ 'genjouristId' : req.params.id }, function(err, genjourist) {
+            console.log(genjourist);
+            res.render('genjourist.ejs',
+                {
+                    genjourist:genjourist
+                });
+            //res.json(docs.facebookProvider);
         });
     });
-
-
 
 
 };
