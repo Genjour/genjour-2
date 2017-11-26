@@ -3,6 +3,7 @@ var LocalStrategy    = require('passport-local').Strategy;
 var FacebookStrategy = require('passport-facebook').Strategy;
 var GoogleStrategy   = require('passport-google-oauth').OAuth2Strategy;
 var generateID = require("unique-id-generator");
+var session      = require('express-session');
 
 
 // load up the user model

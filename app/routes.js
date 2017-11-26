@@ -15,9 +15,11 @@ module.exports = function(app, passport) {
 
     // PROFILE SECTION =========================
     app.get('/profile', isLoggedIn, function(req, res) {
+        res.cookie('genjourist', req.user.genjouristId);
         res.render('profile.ejs', {
             user : req.user
         });
+        
     });
 
     // LOGOUT ==============================
@@ -65,7 +67,7 @@ module.exports = function(app, passport) {
         // handle the callback after facebook has authenticated the user
         app.get('/auth/facebook/callback',
             passport.authenticate('facebook', {
-                successRedirect : '/genjourist',
+                successRedirect : '/profile',
                 failureRedirect : '/'
             }));
 
@@ -93,7 +95,7 @@ module.exports = function(app, passport) {
 
               // input file upload tagname from frontend
               let file = req.files.articleImage;
-                  fileName = file.name;
+              fileName = file.name;
               // moving file to server
               file.mv("assets/articles/img/"+fileName, function(err) {
               if (err)
@@ -107,10 +109,10 @@ module.exports = function(app, passport) {
                   article.category = req.body.category;
                   article.tags = req.body.articleHash;
                   article.image = fileName;
-                  console.log(User.facebook);
-                  //var user = req.user;
-                  //article.genjouristId = req.User.genjouristId;
-                  //article.date = date();
+                  
+                  article.genjouristId = req.cookies.genjourist;
+
+                  article.date = Date();
                   article.articleId = uniqid();
                   article.save(function(err, docs){
                   if(err) throw err;
@@ -133,7 +135,7 @@ app.post('/quotation', function(req, res) {
               quotation.category = req.body.quotationCategory;
               quotation.content = req.body.quotationContent;
               quotation.id = uniqid();
-              //quotation.genjouristId = User.req.genjouristId;
+              quotation.genjouristId = req.cookies.genjourist;
               quotation.save(function(err, docs){
               if(err) throw err;
               console.log("Quotation saved in database");
@@ -150,7 +152,7 @@ app.post('/quotation', function(req, res) {
     app.get('/genjourist/:id', function(req, res) {
         console.log(req.params.id);
         User.findOne({ 'genjouristId' : req.params.id }, function(err, genjourist) {
-            console.log(genjourist);
+            //console.log(genjourist);
             res.render('genjourist.ejs',
                 {
                     genjourist:genjourist
