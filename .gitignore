@@ -17,3 +17,4 @@ node_modules
 config/database.js
 config/auth.js
 noode_modules
+front-end
