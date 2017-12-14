@@ -1,5 +1,6 @@
 var express  = require('express');
 var app      = express();
+var cors       = require('cors');
 var port     = process.env.PORT || 8080;
 var mongoose = require('mongoose');
 var passport = require('passport');
@@ -16,7 +17,10 @@ var configDB = require('./config/database.js');
 
 // configuration ===============================================================
 mongoose.connect(configDB.url); // connect to our database
-
+app.use(cors({
+    origin:'http://localhost:4200',
+    crendentials:true
+}));
 require('./config/passport')(passport); // pass passport for configuration
 // set up our express application
 app.use(morgan('dev')); // log every request to the console
@@ -31,19 +35,12 @@ app.use(session({
     resave: true,
     saveUninitialized: true
 }));
+
 app.use(passport.initialize());
 app.use(passport.session()); // persistent login sessions
 app.use(flash()); // use connect-flash for flash messages stored in session
 //==============================================================================
 app.use(fileUpload());
-
-app.get('/bar', function (req, res) {
-     // read cookies
-     res.cookie('first', 'express');
-     res.redirect('/');
-     console.log(req.cookies.name);
-         
-});
 // routes ======================================================================
 require('./app/routes.js')(app, passport); // load our routes and pass in our app and fully configured passport
 

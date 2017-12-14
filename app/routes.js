@@ -3,7 +3,8 @@ var Article    = require('../app/models/article');
 var Quotation  = require('../app/models/quotation');
 var uniqid     = require('uniqid');
 var User       = require('../app/models/user');
-
+var cors       = require('cors');
+// var Ayush      = require('../app/models/ayush');
 module.exports = function(app, passport) {
 
 // normal routes ===============================================================
@@ -61,15 +62,19 @@ module.exports = function(app, passport) {
 
     // facebook -------------------------------
 
+
+     
         // send to facebook to do the authentication
-        app.get('/auth/facebook', passport.authenticate('facebook', { scope : ['email','user_birthday'] }));
+        app.get('/auth/facebook',  passport.authenticate('facebook', { scope : ['email','user_birthday'] }) );
 
         // handle the callback after facebook has authenticated the user
         app.get('/auth/facebook/callback',
             passport.authenticate('facebook', {
-                successRedirect : '/profile',
-                failureRedirect : '/'
-            }));
+             successRedirect : '/profile',
+             failureRedirect : '/'
+        
+         }        
+        ));
 
 
     // google ---------------------------------

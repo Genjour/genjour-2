@@ -1,5 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
+import { HttpModule } from '@angular/http';
 
 
 import { AppComponent } from './app.component';
@@ -10,6 +11,8 @@ import { ProfileComponent } from './components/profile/profile.component';
 import { RouterModule, Routes } from '@angular/router';
 import { ArticleComponent } from './components/article/article.component';
 import { SidenavComponent } from './components/sidenav/sidenav.component';
+
+import { LoginService } from './components/login/login.service';
 
 const appRoutes: Routes = [
   {path: '', component: LoginComponent },
@@ -30,9 +33,11 @@ const appRoutes: Routes = [
   ],
   imports: [
     BrowserModule,
-    RouterModule.forRoot(appRoutes)
+    HttpModule, 
+    RouterModule.forRoot(appRoutes),
+    
   ],
-  providers: [],
+  providers: [LoginService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

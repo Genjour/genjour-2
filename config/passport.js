@@ -178,6 +178,7 @@ module.exports = function(passport) {
 
                                 return done(null, user);
                             });
+                            console.log("i m here");
                         }
 
                         return done(null, user); // user found, return that user
@@ -189,6 +190,7 @@ module.exports = function(passport) {
                                 return done(err);
                             if(user)
                                 {   
+                                    
                                     console.log(user);
                                     console.log('duplicate email');
                                     user.facebookToken = token;
@@ -200,6 +202,7 @@ module.exports = function(passport) {
         
                                         return done(null, user);
                                     });
+                                    console.log("i m here");
                                 }
                             else
                                 {
@@ -221,8 +224,14 @@ module.exports = function(passport) {
                                             return done(err);
 
                                         return done(null, newUser);
+                                        
                                     });
-                                }
+
+                                    
+                                    
+                                }           
+                                
+                                
 
 
                         });
