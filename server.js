@@ -17,10 +17,13 @@ var configDB = require('./config/database.js');
 
 // configuration ===============================================================
 mongoose.connect(configDB.url); // connect to our database
-app.use(cors({
-    origin:'http://localhost:4200',
-    crendentials:true
-}));
+app.use(function (req, res, next) {
+      res.header("Access-Control-Allow-Origin", "http://localhost:4200");
+      res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
+      res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept,X-Custom-Header, Customer-Id");
+      res.header("Cache-Control", "no-cache, private, no-store, must-revalidate, max-stale=0, post-check=0, pre-check=0");
+      next();
+    });
 require('./config/passport')(passport); // pass passport for configuration
 // set up our express application
 app.use(morgan('dev')); // log every request to the console
