@@ -6,6 +6,7 @@
     "body-parser": "~1.15.2",
     "connect-flash": "~0.1.1",
     "cookie-parser": "~1.4.3",
+    "cors": "^2.8.4",
     "dom-storage": "^2.0.2",
     "ejs": "~2.5.2",
     "express": "~4.14.0",
@@ -20,6 +21,7 @@
     "passport-google-oauth": "~1.0.0",
     "passport-local": "~1.0.0",
     "passport-twitter": "~1.0.4",
-    "unique-id-generator": "^1.0.1"
+    "unique-id-generator": "^1.0.1",
+    "uniqueid": "^1.0.0"
   }
 }
