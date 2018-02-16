@@ -1,7 +1,7 @@
 var fileUpload = require('express-fileupload');
 var Article    = require('../app/models/article');
 var Quotation  = require('../app/models/quotation');
-var uniqid     = require('uniqid');
+var uniqid     = require('uniqueid');
 var User       = require('../app/models/user');
 var cors       = require('cors');
 // var Ayush      = require('../app/models/ayush');
@@ -70,7 +70,7 @@ module.exports = function(app, passport) {
         // handle the callback after facebook has authenticated the user
         app.get('/auth/facebook/callback',
             passport.authenticate('facebook', {
-             successRedirect : '/profile',
+             successRedirect : 'http://localhost:4200/genjourist',
              failureRedirect : '/'
         
          }        
@@ -83,11 +83,13 @@ module.exports = function(app, passport) {
         app.get('/auth/google', passport.authenticate('google', { scope : ['profile', 'email'] }));
 
         // the callback after google has authenticated the user
-        app.get('/auth/google/callback',
-            passport.authenticate('google', {
-                successRedirect : '/profile',
+        app.get('/auth/google/callback', passport.authenticate('google'), function(req,res){
+            passport.authenticate('facebook', {
+                successRedirect : 'http://localhost:4200/genjourist',
                 failureRedirect : '/'
-            }));
+           
+            })
+        });
 
 
 // =============================================================================

@@ -358,7 +358,7 @@ module.exports = function(passport) {
                 user.googleId    = profile.id;
                 user.googleToken = token;
                 user.username  = profile.displayName;
-                user.google.email = (profile.emails[0].value || '').toLowerCase(); // pull the first email
+                user.google.email = (profile.email[0].value || '').toLowerCase(); // pull the first email
                 //user.google.pic   = 'https://www.googleapis.com/plus/v1/people/'+profile.id+'?fields=image&key=AIzaSyDQBNJ6tXZUrq3NHJhlumwo4cpWwGfr8RE';
                 
                 user.save(function(err) {

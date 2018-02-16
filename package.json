@@ -21,6 +21,7 @@
     "passport-google-oauth": "~1.0.0",
     "passport-local": "~1.0.0",
     "passport-twitter": "~1.0.4",
+    "path": "^0.12.7",
     "unique-id-generator": "^1.0.1",
     "uniqueid": "^1.0.0"
   }

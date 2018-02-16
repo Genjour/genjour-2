@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { LoginService } from './login.service';
 import { Router } from '@angular/router';
-import { Observable } from 'rxjs/Observable';
+
+import { Observable } from "rxjs/Rx"
 
 
 @Component({
@@ -19,21 +20,22 @@ export class LoginComponent implements OnInit {
   ngOnInit() {
   }
 
-  facebookButton(){
+  // facebookButton(){
     
-    return this.loginService.facebook().subscribe(data=>{
-      if(data){
-        this.router.navigate(['feeds']);
-      }else{
-        this.router.navigate(['genjourist']);
-      }
-    });
+  //   return this.loginService.facebook().subscribe(data=>{
+  //     if(data.success){
+  //       this.router.navigate(['/feeds']);
+  //     }else{
+  //       this.router.navigate(['/genjourist']);
+  //     }
+  //   });
 
-  }
+  // }
 
   googleButton(){
-    return this.loginService.google();
-    
+    var api = '/auth/google';
+    window.location.href = api;
+   
   }
 
 }

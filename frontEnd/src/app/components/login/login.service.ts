@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
 import { Http, Headers, RequestOptions } from '@angular/http';
 import 'rxjs/add/operator/map';
 
@@ -11,25 +11,18 @@ export class LoginService {
     private http:Http
   ) { }
 
-
-  private headers = new Headers( { 
-      'Content-Type': 'application/json',
-
-        } );
-  private opts = new RequestOptions({
-    headers:this.headers,
-    withCredentials:true
-  })  
+ 
   facebook(){
-    
-
-    return this.http.get('http://localhost:8080/auth/facebook',this.opts)
-    .map(res => {res.json()
-      console.log("raj amit",res);
-    });
+    return this.http.get('http://localhost:8080/auth/facebook')
   }
 
   google(){
-    console.log("u r logggd in google");
+    let headers=new Headers
+    return this.http.get('http://localhost:8080/auth/google',{headers:headers})
+  }
+
+  getGoogle(){
+    let headers=new Headers
+    return this.http.get('http://localhost:8080/auth/google/callback',{headers:headers}).map(res=>res.json());
   }
 }
